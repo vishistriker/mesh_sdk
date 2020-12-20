@@ -78,7 +78,6 @@ register" */
 #define RADIO_PREAMBLE_LENGTH_2MBIT_EXTRA_BYTES 1
 #define RADIO_DISABLE_TO_DISABLED_DELAY_US 6
 #define PA_SETUP_OVERHEAD_US 1
-#define RADIO_PREAMBLE_LENGTH_LR_EXTRA_BYTES 9
 #endif
 
 #define BROADCAST_TIMER_INDEX_TIMESTAMP (0)
@@ -219,7 +218,7 @@ static inline ts_timestamp_t time_required_to_send_us(const packet_t * p_packet,
 {
     static const uint8_t radio_mode_to_us_per_byte[RADIO_MODE_END] =  {8, 4, 32, 8
                                                             #ifdef NRF52_SERIES
-                                                                           ,4, 64
+                                                                           ,4, 128
                                                             #endif
                                                                            };
     uint32_t packet_length_in_bytes = BLE_PACKET_OVERHEAD(RADIO_MODE_BLE_1MBIT) + p_packet->header.length;
@@ -227,10 +226,6 @@ static inline ts_timestamp_t time_required_to_send_us(const packet_t * p_packet,
     if (radio_mode == RADIO_MODE_BLE_2MBIT)
     {
         packet_length_in_bytes += RADIO_PREAMBLE_LENGTH_2MBIT_EXTRA_BYTES;
-    }
-    if (radio_mode == RADIO_MODE_NRF_62K5BIT)
-    {
-        packet_length_in_bytes += RADIO_PREAMBLE_LENGTH_LR_EXTRA_BYTES;
     }
 #endif
     uint32_t radio_time_per_channel = RADIO_RAMPUP_TIME +
