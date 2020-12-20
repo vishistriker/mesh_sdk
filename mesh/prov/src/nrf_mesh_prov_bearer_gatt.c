@@ -377,8 +377,8 @@ static void mesh_gatt_event_handler(const mesh_gatt_evt_t * p_evt, void * p_cont
             evt.conn_index = p_evt->conn_index;
             fsm_event_post(&p_bearer_gatt->fsm, E_CONNECTED, &evt);
                         //TEST-START
-            NRF_MESH_ASSERT(sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_CONN, evt.conn_index, 4) == NRF_SUCCESS);
-            printf("\r\n mesh_gatt_event_handler: changed TX power to 4DB\n");
+            NRF_MESH_ASSERT(sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_CONN, evt.conn_index, 0) == NRF_SUCCESS);
+            printf("\r\n mesh_gatt_event_handler: changed TX power to 0DB\n");
             //TEST-END
             break;
  
