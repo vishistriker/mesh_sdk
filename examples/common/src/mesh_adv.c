@@ -170,11 +170,6 @@ void mesh_adv_params_set(uint32_t timeout_ms, uint32_t interval_units)
 void mesh_adv_start(void)
 {
 #if NRF_SD_BLE_API_VERSION >= 6
-    //TEST-START
-   // APP_ERROR_CHECK(sd_ble_gap_tx_power_set(BLE_GAP_TX_POWER_ROLE_ADV, m_adv_handle, 4));
-    printf("\r\n mesh_adv_start: changed TX power to default\n");
-    //TEST-END
-
     APP_ERROR_CHECK(sd_ble_gap_adv_start(m_adv_handle,  MESH_SOFTDEVICE_CONN_CFG_TAG));
 #else
     APP_ERROR_CHECK(sd_ble_gap_adv_start(&m_adv_params,  MESH_SOFTDEVICE_CONN_CFG_TAG));
