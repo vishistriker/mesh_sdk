@@ -1,0 +1,34 @@
+build/light_switch_server_nrf52840_xxAA_s140_7.2.0_Debug/obj/app_error_handler_gcc.o: \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/app_error_handler_gcc.c \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/sdk_common.h \
+ /usr/share/segger_embedded_studio_for_arm_5.32/include/stdint.h \
+ /usr/share/segger_embedded_studio_for_arm_5.32/include/stdbool.h \
+ /usr/share/segger_embedded_studio_for_arm_5.32/include/string.h \
+ /usr/share/segger_embedded_studio_for_arm_5.32/include/__crossworks.h \
+ include/sdk_config.h include/app_config.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/nordic_common.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/compiler_abstraction.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/sdk_os.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/sdk_errors.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/softdevice/s140/headers/nrf_error.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/app_util.h \
+ /usr/share/segger_embedded_studio_for_arm_5.32/include/stddef.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/nrf.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/nrf52840.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/toolchain/cmsis/include/core_cm4.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/toolchain/cmsis/include/cmsis_version.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/toolchain/cmsis/include/cmsis_compiler.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/toolchain/cmsis/include/cmsis_gcc.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/toolchain/cmsis/include/mpu_armv7.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/system_nrf52840.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/nrf52840_bitfields.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/nrf51_to_nrf52840.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/nrf52_to_nrf52840.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/modules/nrfx/mdk/compiler_abstraction.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/softdevice/s140/headers/nrf52/nrf_mbr.h \
+ ../../../../nRF5_SDK_17.0.2_d674dde/components/softdevice/s140/headers/nrf_svc.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/sdk_macros.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/nrf_assert.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/app_error.h \
+ /usr/share/segger_embedded_studio_for_arm_5.32/include/stdio.h \
+ /home/vishi/opt/sdks/nRF5_SDK_17.0.2_d674dde/components/libraries/util/app_error_weak.h
