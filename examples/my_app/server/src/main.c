@@ -81,9 +81,9 @@
  * Definitions
  *****************************************************************************/
 #define ONOFF_SERVER_0_LED          (BSP_LED_0)
-#define ONOFF_SERVER_1_LED          (BSP_LED_1)
+//#define ONOFF_SERVER_1_LED          (BSP_LED_1)
 
-#define APP_ONOFF_ELEMENT_INDEX     (1)
+#define APP_ONOFF_ELEMENT_INDEX     (0)
 
 /* Controls if the model instance should force all mesh messages to be segmented messages. */
 #define APP_FORCE_SEGMENTATION      (false)
@@ -97,8 +97,8 @@
 static void mesh_events_handle(const nrf_mesh_evt_t * p_evt);
 static void app_onoff_server_set_cb(const app_onoff_server_t * p_server, bool onoff);
 static void app_onoff_server_get_cb(const app_onoff_server_t * p_server, bool * p_present_onoff);
-static void app_onoff_server_set_1_cb(const app_onoff_server_t * p_server, bool onoff);
-static void app_onoff_server_get_1_cb(const app_onoff_server_t * p_server, bool * p_present_onoff);
+//static void app_onoff_server_set_1_cb(const app_onoff_server_t * p_server, bool onoff);
+//static void app_onoff_server_get_1_cb(const app_onoff_server_t * p_server, bool * p_present_onoff);
 static void app_onoff_server_transition_cb(const app_onoff_server_t * p_server,
                                                 uint32_t transition_time_ms, bool target_onoff);
 #if SCENE_SETUP_SERVER_INSTANCES_MAX > 0
@@ -138,13 +138,13 @@ APP_ONOFF_SERVER_DEF(m_onoff_server_0,
                      app_onoff_server_get_cb,
                      app_onoff_server_transition_cb)
 
-APP_ONOFF_SERVER_DEF(m_onoff_server_1,
+/*APP_ONOFF_SERVER_DEF(m_onoff_server_1,
                      APP_FORCE_SEGMENTATION,
                      APP_MIC_SIZE,
                      app_onoff_server_set_1_cb,
                      app_onoff_server_get_1_cb,
                      app_onoff_server_transition_cb)
-
+*/
 /* Callback for updating the hardware state */
 static void app_onoff_server_set_cb(const app_onoff_server_t * p_server, bool onoff)
 {
@@ -155,7 +155,7 @@ static void app_onoff_server_set_cb(const app_onoff_server_t * p_server, bool on
     hal_led_pin_set(ONOFF_SERVER_0_LED, onoff);
 }
 
-static void app_onoff_server_set_1_cb(const app_onoff_server_t * p_server, bool onoff)
+/*static void app_onoff_server_set_1_cb(const app_onoff_server_t * p_server, bool onoff)
 {
     /* Resolve the server instance here if required, this example uses only 1 instance. */
 
@@ -163,7 +163,7 @@ static void app_onoff_server_set_1_cb(const app_onoff_server_t * p_server, bool 
 
     hal_led_pin_set(ONOFF_SERVER_1_LED, onoff);
 }
-
+*/
 /* Callback for reading the hardware state */
 static void app_onoff_server_get_cb(const app_onoff_server_t * p_server, bool * p_present_onoff)
 {
@@ -172,13 +172,13 @@ static void app_onoff_server_get_cb(const app_onoff_server_t * p_server, bool * 
     *p_present_onoff = hal_led_pin_get(ONOFF_SERVER_0_LED);
 }
 
-static void app_onoff_server_get_1_cb(const app_onoff_server_t * p_server, bool * p_present_onoff)
+/*static void app_onoff_server_get_1_cb(const app_onoff_server_t * p_server, bool * p_present_onoff)
 {
     /* Resolve the server instance here if required, this example uses only 1 instance. */
 
     *p_present_onoff = hal_led_pin_get(ONOFF_SERVER_1_LED);
 }
-
+*/
 /* Callback for updating the hardware state */
 static void app_onoff_server_transition_cb(const app_onoff_server_t * p_server,
                                                 uint32_t transition_time_ms, bool target_onoff)
@@ -203,8 +203,9 @@ static void app_model_init(void)
     ERROR_CHECK(app_onoff_init(&m_onoff_server_0, 0));
     __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "App OnOff Model Handle: %d\n", m_onoff_server_0.server.model_handle);
     
-    ERROR_CHECK(app_onoff_init(&m_onoff_server_1, 1));
+/*    ERROR_CHECK(app_onoff_init(&m_onoff_server_1, 1));
     __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "App OnOff Model Handle: %d\n", m_onoff_server_1.server.model_handle);
+*/
 #if SCENE_SETUP_SERVER_INSTANCES_MAX > 0
     /* Instantiate Generic Default Transition Time server as needed by Scene models */
     ERROR_CHECK(app_dtt_init(&m_dtt_server_0, APP_ONOFF_ELEMENT_INDEX));
@@ -266,9 +267,17 @@ static void button_event_handler(uint32_t button_number)
         state change publication due to local event. */
         case 1:
         {
-            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action \n");
+            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action 1\n");
             hal_led_pin_set(ONOFF_SERVER_0_LED, !hal_led_pin_get(ONOFF_SERVER_0_LED));
             app_onoff_status_publish(&m_onoff_server_0);
+            break;
+        }
+        
+        case 2:
+        {
+            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action 2\n");
+            hal_led_pin_set(ONOFF_SERVER_1_LED, !hal_led_pin_get(ONOFF_SERVER_1_LED));
+            app_onoff_status_publish(&m_onoff_server_1);
             break;
         }
 
