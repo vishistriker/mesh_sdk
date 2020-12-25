@@ -82,7 +82,7 @@
 #define ACCESS_MODEL_COUNT (/* Element 0:                                       */ \
                             1 + /* Config Server                                */ \
                             1 + /* Health Server                                */ \
-                            1 + /* Generic OnOff Server                         */ \
+                            2 + /* Generic OnOff Server                         */ \
                             1 + /* Default Transition Time Server               */ \
                             1 + /* Scene Server                                 */ \
                             1   /* Scene Setup Server (extends Scene Server)    */)
@@ -93,7 +93,7 @@
  * @warning If the application is to support _multiple instances_ of the _same_ model, these instances
  * cannot be in the same element and a separate element is needed for each new instance of the same model.
  */
-#define ACCESS_ELEMENT_COUNT (1)
+#define ACCESS_ELEMENT_COUNT (2)
 
 /**
  * The number of (root only) default transition time instances used by the application.
