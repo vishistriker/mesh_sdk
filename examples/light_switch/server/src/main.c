@@ -59,6 +59,7 @@
 
 /* Models */
 #include "generic_onoff_server.h"
+#include "simple_on_off_server.h"
 
 /* Logging and RTT */
 #include "log.h"
@@ -76,7 +77,10 @@
  * Definitions
  *****************************************************************************/
 #define ONOFF_SERVER_0_LED          (BSP_LED_0)
-#define APP_ONOFF_ELEMENT_INDEX     (0)
+#define ONOFF_SERVER_1_LED          (BSP_LED_1)
+#define ONOFF_SERVER_2_LED          (BSP_LED_2)
+
+#define APP_ONOFF_ELEMENT_INDEX     (2)
 
 /* Controls if the model instance should force all mesh messages to be segmented messages. */
 #define APP_FORCE_SEGMENTATION      (false)
@@ -87,8 +91,12 @@
 /*****************************************************************************
  * Forward declaration of static functions
  *****************************************************************************/
-static void app_onoff_server_set_cb(const app_onoff_server_t * p_server, bool onoff);
-static void app_onoff_server_get_cb(const app_onoff_server_t * p_server, bool * p_present_onoff);
+static void app_onoff_server_set_0_cb(const app_onoff_server_t * p_server, bool onoff);
+static void app_onoff_server_get_0_cb(const app_onoff_server_t * p_server, bool * p_present_onoff);
+static void app_onoff_server_set_1_cb(const app_onoff_server_t * p_server, bool onoff);
+static void app_onoff_server_get_1_cb(const app_onoff_server_t * p_server, bool * p_present_onoff);
+static bool on_off_server_set_2_cb(const simple_on_off_server_t * p_server, bool onoff);
+static bool on_off_server_get_2_cb(const simple_on_off_server_t * p_server);
 static void app_onoff_server_transition_cb(const app_onoff_server_t * p_server,
                                                 uint32_t transition_time_ms, bool target_onoff);
 
@@ -97,31 +105,73 @@ static void app_onoff_server_transition_cb(const app_onoff_server_t * p_server,
  * Static variables
  *****************************************************************************/
 static bool m_device_provisioned;
+static simple_on_off_server_t m_server_2;
+//static simple_on_off_server_t m_simple_server_2;
 
 /* Generic OnOff server structure definition and initialization */
 APP_ONOFF_SERVER_DEF(m_onoff_server_0,
                      APP_FORCE_SEGMENTATION,
                      APP_MIC_SIZE,
-                     app_onoff_server_set_cb,
-                     app_onoff_server_get_cb,
+                     app_onoff_server_set_0_cb,
+                     app_onoff_server_get_0_cb,
                      app_onoff_server_transition_cb)
 
-/* Callback for updating the hardware state */
-static void app_onoff_server_set_cb(const app_onoff_server_t * p_server, bool onoff)
-{
-    /* Resolve the server instance here if required, this example uses only 1 instance. */
+APP_ONOFF_SERVER_DEF(m_onoff_server_1,
+                     APP_FORCE_SEGMENTATION,
+                     APP_MIC_SIZE,
+                     app_onoff_server_set_1_cb,
+                     app_onoff_server_get_1_cb,
+                     app_onoff_server_transition_cb)
 
-    __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Setting GPIO value: %d\n", onoff)
+//__simple_onoff_server(m_server_2,
+//                      simple_on_off_server_set_2_cb,
+//                      simple_on_off_server_get_2_cb);
+                      
+
+/* Callback for updating the hardware state */
+static void app_onoff_server_set_0_cb(const app_onoff_server_t * p_server, bool onoff)
+{
+   /* Resolve the server instance here if required, this example uses only 1 instance. */
+
+    __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Setting GPIO value of LED 1: %d\n", onoff)
 
     hal_led_pin_set(ONOFF_SERVER_0_LED, onoff);
 }
 
+static void app_onoff_server_set_1_cb(const app_onoff_server_t * p_server, bool onoff)
+{
+   /* Resolve the server instance here if required, this example uses only 1 instance. */
+
+    __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Setting GPIO value of LED 2: %d\n", onoff)
+
+    hal_led_pin_set(ONOFF_SERVER_1_LED, onoff);
+}
+
+static bool on_off_server_set_2_cb(const simple_on_off_server_t * p_server, bool value)
+{
+    __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "Got SET command to %u\n", value);
+    hal_led_pin_set(ONOFF_SERVER_2_LED, value);
+   return value;
+}
+
+
 /* Callback for reading the hardware state */
-static void app_onoff_server_get_cb(const app_onoff_server_t * p_server, bool * p_present_onoff)
+static void app_onoff_server_get_0_cb(const app_onoff_server_t * p_server, bool * p_present_onoff)
 {
     /* Resolve the server instance here if required, this example uses only 1 instance. */
 
     *p_present_onoff = hal_led_pin_get(ONOFF_SERVER_0_LED);
+}
+static void app_onoff_server_get_1_cb(const app_onoff_server_t * p_server, bool * p_present_onoff)
+{
+    /* Resolve the server instance here if required, this example uses only 1 instance. */
+
+    *p_present_onoff = hal_led_pin_get(ONOFF_SERVER_1_LED);
+}
+
+static bool on_off_server_get_2_cb(const simple_on_off_server_t * p_server)
+{
+    return hal_led_pin_get(ONOFF_SERVER_2_LED);
 }
 
 /* Callback for updating the hardware state */
@@ -135,8 +185,16 @@ static void app_onoff_server_transition_cb(const app_onoff_server_t * p_server,
 static void app_model_init(void)
 {
     /* Instantiate onoff server on element index APP_ONOFF_ELEMENT_INDEX */
-    ERROR_CHECK(app_onoff_init(&m_onoff_server_0, APP_ONOFF_ELEMENT_INDEX));
+    
+    ERROR_CHECK(app_onoff_init(&m_onoff_server_0, 0));
     __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "App OnOff Model Handle: %d\n", m_onoff_server_0.server.model_handle);
+
+    ERROR_CHECK(app_onoff_init(&m_onoff_server_1, 1));
+    __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "App OnOff Model Handle: %d\n", m_onoff_server_1.server.model_handle);
+
+    m_server_2.get_cb = on_off_server_get_2_cb;
+    m_server_2.set_cb = on_off_server_set_2_cb;
+    ERROR_CHECK(simple_on_off_server_init(&m_server_2, 2));
 }
 
 /*************************************************************************************************/
@@ -178,9 +236,33 @@ static void button_event_handler(uint32_t button_number)
         state change publication due to local event. */
         case 1:
         {
-            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action \n");
+            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action button 1\n");
             hal_led_pin_set(ONOFF_SERVER_0_LED, !hal_led_pin_get(ONOFF_SERVER_0_LED));
             app_onoff_status_publish(&m_onoff_server_0);
+            break;
+        }
+        case 2:
+        {
+            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action button 2\n");
+            hal_led_pin_set(ONOFF_SERVER_1_LED, !hal_led_pin_get(ONOFF_SERVER_1_LED));
+            app_onoff_status_publish(&m_onoff_server_1);
+            break;
+        }
+/*
+        case 3:
+        {
+            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action button 3");
+            hal_led_pin_set(ONOFF_SERVER_2_LED, !hal_led_pin_get(ONOFF_SERVER_2_LED));
+            app_onoff_status_publish(&m_server_2);
+        }
+*/
+
+        case 3:
+        {
+            //uint8_t value = !hal_led_pin_get(ONOFF_SERVER_2_LED);
+            __LOG(LOG_SRC_APP, LOG_LEVEL_INFO, "User action button 3\n");
+            hal_led_pin_set(ONOFF_SERVER_2_LED, !hal_led_pin_get(ONOFF_SERVER_2_LED));
+            (void)simple_on_off_server_status_publish(&m_server_2, !hal_led_pin_get(ONOFF_SERVER_2_LED));
             break;
         }
 
