@@ -43,6 +43,7 @@
 #include "sdk_config.h"
 #include "example_common.h"
 #include "generic_onoff_server.h"
+#include "generic_message_server.h"
 #include "app_transition.h"
 
 #include "log.h"
